@@ -3,7 +3,6 @@ let skorPemain2 = 0;
 let skorSementara = 0;
 let giliranPemain1 = true;
 
-
 const skorPemain1El = document.getElementById("score-0");
 const skorPemain2El = document.getElementById("score-1");
 const skorSementaraEl1 = document.getElementById("current-0");
@@ -19,7 +18,7 @@ function updateUI() {
     skorPemain2El.textContent = skorPemain2;
     skorSementaraEl1.textContent = giliranPemain1 ? skorSementara : 0;
     skorSementaraEl2.textContent = giliranPemain1 ? 0 : skorSementara;
-    giliranEl.value = `Giliran: ${giliranPemain1 ? "Pemain 1" : "Pemain 2"}`;
+    giliranEl.textContent = giliranPemain1 ? "Giliran: Pemain 1" : "Giliran: Pemain 2";
 }
 
 function resetGame() {
@@ -33,7 +32,6 @@ function resetGame() {
     document.getElementById("section-1").classList.remove("player-active");
 }
 
-
 function gantiGiliran() {
     skorSementara = 0;
     giliranPemain1 = !giliranPemain1;
@@ -41,7 +39,6 @@ function gantiGiliran() {
     document.getElementById("section-0").classList.toggle("player-active", giliranPemain1);
     document.getElementById("section-1").classList.toggle("player-active", !giliranPemain1);
 }
-
 
 function cekPemenang() {
     if (skorPemain1 >= 100) {
@@ -53,7 +50,7 @@ function cekPemenang() {
     }
 }
 
-tombolPutarDadu.addEventListener("click", () => {
+tombolPutarDadu.onclick = function () {
     const dadu = Math.floor(Math.random() * 6) + 1;
     diceEl.src = `./images/dadu-${dadu}.png`;
     diceEl.classList.remove("hidden");
@@ -66,9 +63,9 @@ tombolPutarDadu.addEventListener("click", () => {
     }
 
     updateUI();
-});
+};
 
-tombolTahan.addEventListener("click", () => {
+tombolTahan.onclick = function () {
     if (giliranPemain1) {
         skorPemain1 += skorSementara;
     } else {
@@ -77,10 +74,8 @@ tombolTahan.addEventListener("click", () => {
 
     cekPemenang();
     gantiGiliran();
-});
+};
 
-tombolGameBaru.addEventListener("click", () => {
-    resetGame();
-});
+tombolGameBaru.onclick = resetGame;
 
 resetGame();
