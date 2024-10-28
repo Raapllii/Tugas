@@ -13,7 +13,7 @@ const tombolTahan = document.getElementById("btn-tahan");
 const tombolGameBaru = document.getElementById("btn-baru");
 const diceEl = document.querySelector(".dice");
 
-function updateUI() {
+function tampilkanSkor() {
     skorPemain1El.textContent = skorPemain1;
     skorPemain2El.textContent = skorPemain2;
     skorSementaraEl1.textContent = giliranPemain1 ? skorSementara : 0;
@@ -21,48 +21,48 @@ function updateUI() {
     giliranEl.textContent = giliranPemain1 ? "Giliran: Pemain 1" : "Giliran: Pemain 2";
 }
 
-function resetGame() {
+function mulaiUlang() {
     skorPemain1 = 0;
     skorPemain2 = 0;
     skorSementara = 0;
     giliranPemain1 = true;
-    updateUI();
+    tampilkanSkor();
     diceEl.classList.add("hidden");
     document.getElementById("section-0").classList.add("player-active");
     document.getElementById("section-1").classList.remove("player-active");
 }
 
-function gantiGiliran() {
+function ubahGiliran() {
     skorSementara = 0;
     giliranPemain1 = !giliranPemain1;
-    updateUI();
+    tampilkanSkor();
     document.getElementById("section-0").classList.toggle("player-active", giliranPemain1);
     document.getElementById("section-1").classList.toggle("player-active", !giliranPemain1);
 }
 
-function cekPemenang() {
+function cekSiapaMenang() {
     if (skorPemain1 >= 100) {
         alert("Pemain 1 Menang!");
-        resetGame();
+        mulaiUlang();
     } else if (skorPemain2 >= 100) {
         alert("Pemain 2 Menang!");
-        resetGame();
+        mulaiUlang();
     }
 }
 
 tombolPutarDadu.onclick = function () {
-    const dadu = Math.floor(Math.random() * 6) + 1;
-    diceEl.src = `./images/dadu-${dadu}.png`;
+    let dadu = Math.floor(Math.random() * 6) + 1;
+    diceEl.src = "./images/dadu-" + dadu + ".png";
     diceEl.classList.remove("hidden");
 
     if (dadu === 1) {
         skorSementara = 0;
-        gantiGiliran();
+        ubahGiliran();
     } else {
         skorSementara += dadu;
     }
 
-    updateUI();
+    tampilkanSkor();
 };
 
 tombolTahan.onclick = function () {
@@ -72,10 +72,10 @@ tombolTahan.onclick = function () {
         skorPemain2 += skorSementara;
     }
 
-    cekPemenang();
-    gantiGiliran();
+    cekSiapaMenang();
+    ubahGiliran();
 };
 
-tombolGameBaru.onclick = resetGame;
+tombolGameBaru.onclick = mulaiUlang;
 
-resetGame();
+mulaiUlang();
